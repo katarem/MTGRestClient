@@ -7,6 +7,7 @@ import androidx.navigation.NavHost
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import io.github.katarem.mtgrestclient.screens.AllCardsScreen
 import io.github.katarem.mtgrestclient.screens.HomeScreen
 import io.github.katarem.mtgrestclient.screens.UserDetails
 import io.github.katarem.mtgrestclient.screens.UserLoginScreen
@@ -33,6 +34,11 @@ fun Router(){
         composable(Routes.USERDETAILS){
             val deckCount = mtgModel.listaDecks.collectAsState().value.size
             UserDetails(navController = navController, userModel, deckCount)
+        }
+
+        composable(Routes.ALLCARDS){
+            val user = userModel.user.collectAsState().value
+            AllCardsScreen(navController, user, mtgModel)
         }
 
     }

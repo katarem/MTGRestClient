@@ -18,14 +18,6 @@ interface MTGInterface {
     @Headers("Accept: application/json")
     suspend fun getAllDecks(): Response<List<Deck>>
 
-    @GET("cards/{id}")
-    @Headers("Accept: application/json")
-    suspend fun getCardById(@Path("id") id: String): Response<Card>
-
-    @GET("decks/{id}")
-    @Headers("Accept: application/json")
-    suspend fun getDeckById(@Path("id") id: Int): Response<Deck>
-
     @GET("decks/by-user/{id}")
     @Headers("Accept: application/json")
     suspend fun getUserDecks(@Path("id") id: Int): Response<List<Deck>>
@@ -41,5 +33,9 @@ interface MTGInterface {
     @PATCH("users/{id}")
     @Headers("Accept: application/json")
     suspend fun  changeProfilePhoto(@Path("id") id: Int, @Header("img") img: String): Response<User>
+
+    @GET("cards/all")
+    @Headers("Accept: application/json")
+    suspend fun getAllCards(): Response<List<Card>>
 
 }

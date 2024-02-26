@@ -16,6 +16,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
@@ -39,23 +40,27 @@ import coil.compose.AsyncImage
 import io.github.katarem.mtgrestclient.model.Card
 import io.github.katarem.mtgrestclient.model.Deck
 import io.github.katarem.mtgrestclient.model.User
+import io.github.katarem.mtgrestclient.navigation.Routes
 import io.github.katarem.mtgrestclient.utils.API_STATE
 import io.github.katarem.mtgrestclient.viewmodel.MTGViewModel
 
 @Composable
 fun HomeScreen(navController: NavController?, user: User?, model: MTGViewModel) {
+    val userDecks = model.listaOwnedDecks.collectAsState()
     val decks = model.listaDecks.collectAsState()
     val estadoCall = model.estadoCall.collectAsState()
 
     DisposableEffect(Unit) {
         model.getDecksByUser(user?.id!!)
+        model.getAllDecks()
         onDispose {
             Log.d("HomeScreen", "Se ha desechado HomeScreen")
         }
     }
 
     Column(
-        Modifier.fillMaxSize()
+        Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Header(user){
             navController?.navigate("userDetails")
@@ -66,10 +71,22 @@ fun HomeScreen(navController: NavController?, user: User?, model: MTGViewModel) 
                 fontSize = 20.sp,
                 modifier = Modifier.padding(20.dp)
             )
+            if (userDecks.value.isNotEmpty())
+                DecksView(decks.value)
+            else
+                Text(text = "No hay decks :(", Modifier.padding(20.dp))
+            Text(
+                text = "Todos los decks",
+                fontSize = 20.sp,
+                modifier = Modifier.padding(20.dp)
+            )
             if (decks.value.isNotEmpty())
                 DecksView(decks.value)
             else
                 Text(text = "No hay decks :(", Modifier.padding(20.dp))
+        }
+        Button(onClick = { navController?.navigate(Routes.ALLCARDS) }) {
+            Text(text = "Ver todas las cartas")
         }
     }
 
@@ -124,9 +141,6 @@ fun DeckComponent(deck: Deck) {
 
     Column {
         ElevatedCard(
-            colors = CardDefaults.cardColors(
-                containerColor = Color.Yellow
-            ),
             elevation = CardDefaults.cardElevation(
                 defaultElevation = 8.dp
             ),
