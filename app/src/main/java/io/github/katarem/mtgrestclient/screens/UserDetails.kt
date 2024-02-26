@@ -20,6 +20,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import io.github.katarem.mtgrestclient.model.User
+import io.github.katarem.mtgrestclient.utils.UserDefaults
 import io.github.katarem.mtgrestclient.viewmodel.UserViewModel
 
 @Composable
@@ -34,7 +35,7 @@ fun UserDetails(navController: NavController?, userModel: UserViewModel, deckCou
 
     ){
         AsyncImage(
-            model = user.profileImg!!,
+            model = user.profileImg?: UserDefaults.DEFAULT_PROFILE_PIC,
             contentDescription = "",
             modifier = Modifier
                 .size(150.dp)

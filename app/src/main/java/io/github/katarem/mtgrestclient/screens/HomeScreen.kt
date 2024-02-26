@@ -42,6 +42,7 @@ import io.github.katarem.mtgrestclient.model.Deck
 import io.github.katarem.mtgrestclient.model.User
 import io.github.katarem.mtgrestclient.navigation.Routes
 import io.github.katarem.mtgrestclient.utils.API_STATE
+import io.github.katarem.mtgrestclient.utils.UserDefaults
 import io.github.katarem.mtgrestclient.viewmodel.MTGViewModel
 
 @Composable
@@ -114,7 +115,7 @@ fun Header(user: User?, onClick: () -> Unit){
             )
             AsyncImage(
                 model = user?.profileImg
-                    ?: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrmZHUKoUrzRvnJzpzqr4ZPhh9B2D-zm450YPGKepXNw&s",
+                    ?: UserDefaults.DEFAULT_PROFILE_PIC,
                 contentDescription = "a",
                 modifier = Modifier
                     .size(64.dp)
@@ -203,7 +204,7 @@ fun UserComponent(user: User) {
     ) {
         AsyncImage(
             model = user.profileImg
-                ?: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrmZHUKoUrzRvnJzpzqr4ZPhh9B2D-zm450YPGKepXNw&s",
+                ?: UserDefaults.DEFAULT_PROFILE_PIC,
             contentDescription = "a",
             modifier = Modifier
                 .size(80.dp)
